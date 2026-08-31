@@ -4,23 +4,26 @@ import { supabase } from "@/app/_libs/supabase";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { AuthForm } from "@/app/_types/AuthForm";
+
 
 export default function Page() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  
   const [showPassword, setShowPassword] = useState(false);
-
   const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isLoading },
+  } = useForm<AuthForm>();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    setIsLoading(true);
+  const onSubmit = async (data: AuthForm) => {
+    
 
     const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email: data.email,
+      password: data.password,
     });
 
     if (error) {
@@ -29,7 +32,7 @@ export default function Page() {
       router.replace("/home");
     }
 
-    setIsLoading(false);
+    
   };
 
   return (
@@ -51,7 +54,10 @@ export default function Page() {
             おかえりなさい
           </h1>
 
-          <form onSubmit={handleSubmit} className="w-full space-y-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 w-full max-w-100"
+          >
             <div className="space-y-2">
               <label
                 htmlFor="email"
@@ -62,15 +68,19 @@ export default function Page() {
 
               <input
                 type="email"
-                name="email"
                 id="email"
-                placeholder="developer@example.com"
                 className="block w-full rounded border border-gray-300 py-2.5 px-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 sm:text-sm transition-colors duration-200 disabled:bg-gray-100"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@company.com"
                 disabled={isLoading}
+                {...register("email", {
+                  required: "メールアドレスを入力してください",
+                })}
               />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -84,15 +94,19 @@ export default function Page() {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  name="password"
                   id="password"
                   placeholder="••••••••"
-                  className="block w-full rounded border border-gray-300 py-2.5 pl-3 pr-10 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 sm:text-sm transition-colors duration-200 disabled:bg-gray-100"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full rounded border border-gray-300 py-2.5 px-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 sm:text-sm transition-colors duration-200 disabled:bg-gray-100"
                   disabled={isLoading}
+                  {...register("password", {
+                    required: "パスワードを入力してください",
+                  })}
                 />
+                {errors.password && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.password.message}
+                  </p>
+                )}
 
                 <button
                   type="button"

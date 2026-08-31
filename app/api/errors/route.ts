@@ -1,6 +1,6 @@
 import { prisma } from '@/app/_libs/prisma'
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/app/_libs/supabase'
+import { getSupabaseUser } from '@/app/_libs/auth'
 
 // エラー一覧APIのレスポンスの型
 export type ErrorsIndexResponse = {
@@ -20,13 +20,9 @@ export type ErrorsIndexResponse = {
 export const GET = async (request: NextRequest) => {
   const token = request.headers.get('Authorization') ?? ''
 
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser(token)
+  const user = await getSupabaseUser(token)
 
-  
-  if (error || !user) {
+  if (!user) {
     return NextResponse.json(
       { message: '認証に失敗しました' },
       { status: 401 },

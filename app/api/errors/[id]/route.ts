@@ -1,6 +1,6 @@
 import { prisma } from '@/app/_libs/prisma'
-import { supabase } from '@/app/_libs/supabase'
 import { NextRequest, NextResponse } from 'next/server'
+import { getSupabaseUser } from '@/app/_libs/auth'
 
 export type ErrorDetailResponse = {
   error: {
@@ -33,12 +33,9 @@ export const GET = async (
   const token = request.headers.get('Authorization') ?? ''
 
   // Supabase Authのユーザーを取得
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser(token)
+  const user = await getSupabaseUser(token)
 
-  if (error || !user) {
+  if ( !user) {
     return NextResponse.json(
       { message: '認証に失敗しました' },
       { status: 401 },
@@ -163,13 +160,10 @@ export const PUT = async (
   const token = request.headers.get('Authorization') ?? ''
 
   // Supabase Authのユーザーを取得
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser(token)
+    const user = await getSupabaseUser(token)
 
   // 認証チェック
-  if (error || !user) {
+  if ( !user) {
     return NextResponse.json(
       { message: '認証に失敗しました' },
       { status: 401 },
@@ -311,13 +305,10 @@ export const DELETE = async (
   const token = request.headers.get('Authorization') ?? ''
 
   // Supabase Authのユーザーを取得
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser(token)
+  const user = await getSupabaseUser(token)
 
   // 認証チェック
-  if (error || !user) {
+  if ( !user) {
     return NextResponse.json(
       { message: '認証に失敗しました' },
       { status: 401 },
