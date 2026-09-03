@@ -1,33 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import useSWR from "swr";
-import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
-import { HomeResponse } from "@/app/_types/HomeResponse";
-
+import {useHome} from "@/app/_hooks/useHome";
 
 
 export default function Page() {
-  const { token, isLoading: isSessionLoading } = useSupabaseSession();
+  const { data, error, isLoading } = useHome();
 
-  const fetcher = async ([url, token]: [string, string]) => {
-  const response = await fetch(url, {
-    headers: {
-      Authorization: token,
-    },
-  });
 
-  if (!response.ok) {
-    throw new Error("Home情報の取得に失敗しました");
-  }
-
-  return response.json();
-};
-
-const { data, error, isLoading } = useSWR<HomeResponse>(
-  token ? ["/api/home", token] : null,
-  fetcher,
-);
   // 平均解決時間を「○時間 ○分」に変換
   const formatResolutionTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -46,7 +26,7 @@ const { data, error, isLoading } = useSWR<HomeResponse>(
     return `${targetDate.getMonth() + 1}/${targetDate.getDate()}`;
   };
 
-  if (isSessionLoading || isLoading) {
+  if ( isLoading) {
     return (
       <main className="min-h-screen bg-[#f8f9fa] flex items-center justify-center">
         <p className="text-gray-500">読み込み中...</p>
