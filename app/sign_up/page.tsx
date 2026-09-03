@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthForm } from "@/app/_types/AuthForm";
+import {AuthHeader} from "../_components/Headers/AuthHeader";
 
 export default function Page() {
   
@@ -24,7 +25,7 @@ export default function Page() {
       email: data.email,
       password: data.password,
       options: {
-        emailRedirectTo: `http://localhost:3000/sign_in`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/sign_in`,
       },
     });
 
@@ -39,17 +40,8 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f9fa] font-sans antialiased text-gray-900">
-      <header className="w-full bg-white border-b border-gray-200 px-6 py-4 shadow-sm">
-        <div className="max-w-7xl mx-auto w-full">
-          <Link
-            href="/"
-            className="text-2xl font-bold text-indigo-600 tracking-tight"
-          >
-            ErrorNote
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen flex flex-col">
+      <AuthHeader />
 
       <main className="grow flex items-center justify-center p-6 bg-[#f8f9fa]">
         <div className="bg-white w-full max-w-md rounded-lg shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-gray-100 p-10">

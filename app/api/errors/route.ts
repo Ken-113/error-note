@@ -1,21 +1,8 @@
 import { prisma } from '@/app/_libs/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseUser } from '@/app/_libs/auth'
+import { ErrorsIndexResponse } from '@/app/_types/Errors/ErrorsIndexResponse'
 
-// エラー一覧APIのレスポンスの型
-export type ErrorsIndexResponse = {
-  errors: {
-    id: string
-    title: string
-    resolutionTime: number
-    createdAt: Date
-    updatedAt: Date
-    technologies: {
-      id: string
-      name: string
-    }[]
-  }[]
-}
 
 export const GET = async (request: NextRequest) => {
   const token = request.headers.get('Authorization') ?? ''
@@ -67,8 +54,8 @@ export const GET = async (request: NextRequest) => {
       id: error.id,
       title: error.title,
       resolutionTime: error.resolutionTime,
-      createdAt: error.createdAt,
-      updatedAt: error.updatedAt,
+      createdAt: error.createdAt.toISOString(),
+      updatedAt: error.updatedAt.toISOString(),
       technologies: error.technologies.map((item) => ({
         id: item.technology.id,
         name: item.technology.name,
