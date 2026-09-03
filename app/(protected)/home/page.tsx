@@ -1,66 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
+import { HomeResponse } from "@/app/_types/HomeResponse";
 
-type HomeResponse = {
-  recentErrors: {
-    id: string;
-    title: string;
-    resolutionTime: number;
-    createdAt: string;
-    technologies: {
-      id: string;
-      name: string;
-    }[];
-  }[];
-  totalErrorCount: number;
-  technologyCounts: {
-    id: string;
-    name: string;
-    count: number;
-  }[];
-  averageResolutionTime: number;
-};
+
 
 export default function Page() {
   const { token, isLoading: isSessionLoading } = useSupabaseSession();
 
-  const [data, setData] = useState<HomeResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const fetcher = async ([url, token]: [string, string]) => {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: token,
+    },
+  });
 
-  useEffect(() => {
-    if (isSessionLoading || !token) return;
+  if (!response.ok) {
+    throw new Error("Home情報の取得に失敗しました");
+  }
 
-    const fetchHome = async () => {
-      try {
-        const response = await fetch("/api/home", {
-          method: "GET",
-          headers: {
-            Authorization: token,
-          },
-        });
+  return response.json();
+};
 
-        
-
-        if (!response.ok) {
-          throw new Error("Home情報の取得に失敗しました");
-        }
-
-        const result: HomeResponse = await response.json();
-
-        setData(result);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchHome();
-  }, [token, isSessionLoading]);
-
+const { data, error, isLoading } = useSWR<HomeResponse>(
+  token ? ["/api/home", token] : null,
+  fetcher,
+);
   // 平均解決時間を「○時間 ○分」に変換
   const formatResolutionTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -87,7 +54,7 @@ export default function Page() {
     );
   }
 
-  if (!data) {
+  if (error || !data) {
     return (
       <main className="min-h-screen bg-[#f8f9fa] flex items-center justify-center">
         <p className="text-gray-500">データの取得に失敗しました。</p>
