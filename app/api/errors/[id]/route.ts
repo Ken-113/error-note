@@ -1,30 +1,8 @@
 import { prisma } from '@/app/_libs/prisma'
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseUser } from '@/app/_libs/auth'
-
-export type ErrorDetailResponse = {
-  error: {
-    id: string
-    title: string
-    resolutionTime: number
-    errorMessage: string
-    situation: string
-    cause: string
-    solution: string
-    learning: string
-    createdAt: Date
-    attempts: {
-      id: string
-      attemptNumber: number
-      content: string
-      createdAt: Date
-    }[]
-    technologies: {
-      id: string
-      name: string
-    }[]
-  }
-}
+import { ErrorDetailResponse } from '@/app/_types/Errors/ErrorDetailResponse'
+import { UpdateErrorRequestBody } from '@/app/_types/Errors/UpdateErrorRequestBody'
 
 export const GET = async (
   request: NextRequest,
@@ -96,13 +74,15 @@ export const GET = async (
       cause: errorLog.cause,
       solution: errorLog.solution,
       learning: errorLog.learning,
-      createdAt: errorLog.createdAt,
+      createdAt: errorLog.createdAt.toISOString(),
+      updatedAt: errorLog.updatedAt.toISOString(),
 
       attempts: errorLog.attempts.map((attempt) => ({
         id: attempt.id,
         attemptNumber: attempt.attemptNumber,
         content: attempt.content,
-        createdAt: attempt.createdAt,
+        createdAt: attempt.createdAt.toISOString(),
+        updatedAt: attempt.updatedAt.toISOString(),
       })),
 
       technologies: errorLog.technologies.map((item) => ({
@@ -125,28 +105,6 @@ export const GET = async (
 
 
 
-// エラー更新時のリクエストbody
-export type UpdateErrorRequestBody = {
-  title: string
-  resolutionTime: number
-  errorMessage: string
-  situation: string
-  cause: string
-  solution: string
-  learning: string
-
-  // 使用技術
-  technologies: {
-    id?: string
-    name: string
-  }[]
-
-  // 解決までの試行
-  attempts: {
-    id?: string
-    content: string
-  }[]
-}
 
 // エラー更新APIのレスポンス
 export type UpdateErrorResponse = {

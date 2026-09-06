@@ -1,26 +1,11 @@
 import { prisma } from "@/app/_libs/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/app/_libs/supabase";
+import { TechnologiesIndexResponse } from "@/app/_types/Technologies/TechnologiesIndexResponse";
+import { CreateTechnologyRequestBody } from "@/app/_types/Technologies/CreateTechnologyRequestBody";
+import { CreateTechnologyResponse } from "@/app/_types/Technologies/CreateTechnologyResponse";
 
-// 技術一覧APIのレスポンスの型
-export type TechnologiesIndexResponse = {
-  technologies: {
-    id: string;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
-};
 
-// 技術作成時に送られてくるリクエストbodyの型
-export type CreateTechnologyRequestBody = {
-  name: string;
-};
-
-// 技術作成APIのレスポンスの型
-export type CreateTechnologyResponse = {
-  id: string;
-};
 
 // 技術一覧取得API
 export const GET = async (request: NextRequest) => {
@@ -42,8 +27,15 @@ export const GET = async (request: NextRequest) => {
       },
     });
 
+       const formattedTechnologies = technologies.map((technology) => ({
+      id: technology.id,
+      name: technology.name,
+      createdAt: technology.createdAt.toISOString(),
+      updatedAt: technology.updatedAt.toISOString(),
+    }));
+
     return NextResponse.json<TechnologiesIndexResponse>(
-      { technologies },
+      { technologies : formattedTechnologies },
       { status: 200 },
     );
   } catch {
