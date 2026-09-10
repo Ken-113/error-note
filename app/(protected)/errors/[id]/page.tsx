@@ -18,7 +18,7 @@ export default function Page({ params }: PageProps) {
   const router = useRouter();
   const { id } = use(params);
   const { data, error, isLoading } = useError(id);
-  const { updateError, isSubmitting } = useUpdateError();
+  const { updateError,  } = useUpdateError();
   const { deleteError, isDeleting } = useDeleteError();
   const handleSubmit = async (values: UpdateErrorRequestBody) => {
     await updateError(id, values);
@@ -81,7 +81,6 @@ export default function Page({ params }: PageProps) {
         defaultValues={defaultValues}
         onSubmit={handleSubmit}
         onDelete={handleDelete}
-        isSubmitting={isSubmitting}
         isDeleting={isDeleting}
       />
     </main>

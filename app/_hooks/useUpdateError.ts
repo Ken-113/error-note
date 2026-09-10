@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { UpdateErrorRequestBody } from "@/app/_types/Errors/UpdateErrorRequestBody";
 
 export const useUpdateError = () => {
   const { token } = useSupabaseSession();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
 
   const updateError = async (
     id: string,
@@ -15,7 +14,7 @@ export const useUpdateError = () => {
     }
 
     try {
-      setIsSubmitting(true);
+      
 
       const response = await fetch(`/api/errors/${id}`, {
         method: "PUT",
@@ -32,12 +31,12 @@ export const useUpdateError = () => {
 
       return await response.json();
     } finally {
-      setIsSubmitting(false);
+      
     }
   };
 
   return {
     updateError,
-    isSubmitting,
+   
   };
 };

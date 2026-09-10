@@ -8,7 +8,6 @@ type EditErrorFormProps = {
   defaultValues: UpdateErrorRequestBody;
   onSubmit: (values: UpdateErrorRequestBody) => void;
   onDelete: () => void;
-  isSubmitting?: boolean;
   isDeleting?: boolean;
 };
 
@@ -16,7 +15,6 @@ export default function EditErrorForm({
   defaultValues,
   onSubmit,
   onDelete,
-  isSubmitting = false,
   isDeleting = false,
 }: EditErrorFormProps) {
   const [technologyInput, setTechnologyInput] = useState("");
@@ -26,7 +24,7 @@ export default function EditErrorForm({
     handleSubmit,
     setValue,
     control,
-    formState: { errors },
+    formState: { errors ,isSubmitting},
   } = useForm<UpdateErrorRequestBody>({
     defaultValues,
   });
