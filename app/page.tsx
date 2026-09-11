@@ -151,7 +151,7 @@ export default function Page() {
                   </p>
 
                   <p className="text-sm text-gray-700">
-                    APIレスポンスの型とコンポーネント側の型が一致していなかった。
+                    APIレスポンスの型とフロントエンド側の型が一致していなかった。
                   </p>
                 </div>
 
@@ -161,7 +161,7 @@ export default function Page() {
                   </p>
 
                   <p className="text-sm text-gray-700">
-                    APIレスポンス用の型を定義して、フロント側で使用する型を統一。
+                    APIレスポンス用の型を定義して、フロントエンド側で使用する型を統一。
                   </p>
                 </div>
 
@@ -171,7 +171,7 @@ export default function Page() {
                   </p>
 
                   <p className="text-sm text-gray-700">
-                    APIとフロントエンドで型を明確に分けて管理する。
+                    APIとフロントエンドの型を合わせることで、データの受け渡し時の不整合を防ぐ。
                   </p>
                 </div>
               </div>
