@@ -86,7 +86,9 @@ export const GET = async (request: NextRequest) => {
       ]);
 
     // 平均解決時間がnullの場合は0にする
-    const averageResolutionTime = averageResult._avg.resolutionTime ?? 0;
+    const averageResolutionTime = Math.floor(
+      averageResult._avg.resolutionTime ?? 0,
+    );
     // 技術ごとのエラー件数を集計
     const technologyCountMap = new Map<
       string,
