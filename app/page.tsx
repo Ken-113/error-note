@@ -36,30 +36,31 @@ export default function Page() {
     <main className="min-h-screen bg-gray-50 text-gray-900">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
           {/* Logo */}
           <Logo />
 
           {/* Navigation */}
-          <nav className="flex items-center gap-4 sm:gap-6">
+          <nav className="flex items-center gap-2 sm:gap-6">
             <button
               type="button"
               onClick={handleGuestLogin}
               disabled={isGuestLoading}
-              className="rounded-lg border border-indigo-200 bg-white px-5 py-2.5 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg border border-indigo-200 bg-white px-2.5 py-1.5 text-xs font-medium text-indigo-600 transition-colors hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5 sm:py-2.5 sm:text-sm"
             >
               {isGuestLoading ? "ログイン中..." : "ゲストログイン"}
             </button>
+
             <Link
               href="/sign_in"
-              className="font-medium text-gray-700 transition-colors hover:text-indigo-600"
+              className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-indigo-600 sm:px-5 sm:py-2.5 sm:text-sm"
             >
               ログイン
             </Link>
 
             <Link
               href="/sign_up"
-              className="rounded-lg bg-indigo-600 px-5 py-2.5 font-medium text-white shadow-sm transition-colors hover:bg-indigo-700"
+              className="rounded-lg bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 sm:px-5 sm:py-2.5 sm:text-sm"
             >
               アカウント作成
             </Link>
