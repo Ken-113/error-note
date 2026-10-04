@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+##ErrorNote
+プログラミング学習者・個人開発者向けに、発生したエラーについて、原因や試したこと、解決方法、解決にかかった時間などを記録・管理できるサービスです。
+一度解決したエラーを後から検索して振り返ることで、同じエラーが発生した際に過去の記録を確認できるようにしています。
 
-## Getting Started
+##本番URL
+https://error-note.vercel.app
 
-First, run the development server:
+※登録なしでゲストログインにて閲覧可能です。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+##トップページ
+<img width="1409" height="746" alt="LP" src="https://github.com/user-attachments/assets/19b5a88b-c37a-463f-aaaa-2e15f8713480" />
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##開発経緯
+プログラミング学習や個人開発に取り組む中で、自分自身がエラーの原因を調査し、試行錯誤しながら解決する機会が増え、 
+一度解決したエラーでも時間が経つと原因や解決方法を思い出せず、再度調べ直すことがあるという課題を感じこのErrorNoteを開発しました。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+##使用技術
+FW
+Next.js
+React
+Tailwind CSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ライブラリ
+React Hook Form
+SWR
+React Testing Library
 
-## Learn More
+BE
+Supabase 
+Prisma
+PostgreSQL 
 
-To learn more about Next.js, take a look at the following resources:
+認証
+NextAuth.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+その他ツール
+Vercel 
+GitHub
+VSCode
+Slack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+##機能一覧
+・エラー情報の登録 
+・エラー情報の編集・削除 
+・エラー情報の検索 
+・エラー内容・解決方法の記録 
+・技術情報の登録・管理 
 
-## Deploy on Vercel
+##設計のこだわり
+シンプルでわかりやすいアプリにしたかったため、不要な機能を実装せずMVPでの作成を意識しました。
+全体の平均解決時間を取得して可視化することで、エラーにかかった時間の全体確認できるようにしました。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
